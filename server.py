@@ -21,7 +21,7 @@ def unathorized():
     return make_response(jsonify({'error': 'unathorized access'}),401)
 '''
 class Employees(Resource):
-    @auth.login_required
+    @auth.login_required 
     def get(self):
         conn = db_connect.connect() # connect to database
         query = conn.execute("select * from employees") # This line performs query and returns json result
@@ -41,10 +41,10 @@ class Employees_Name(Resource):
         query = conn.execute("select * from employees where EmployeeId =%d "  %int(employee_id))
         result = {'data': [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]}
         return jsonify(result)
-@app.route('/delete/<int:trackid>', methods=['DELETE', 'GET'])
+@app.route('/delete/<int:trackid>', methods=['DELETE', 'GET']) #deletes a track with a specific track id
 def delete(trackid):
     if request.method=='GET':
-        return "5ara"
+        return ""
     else:
         print(request.method)
         conn = db_connect.connect()
@@ -53,4 +53,4 @@ def delete(trackid):
 api.add_resource(Employees, '/employees') # Route_1
 api.add_resource(Tracks, '/tracks') # Route_2
 api.add_resource(Employees_Name, '/employees/<employee_id>') # Route_3
-#api.add_resource(delete, '/delete/<track_id>')#Route_4
+#api.add_resource(delete, '/delete/<track_id>')#Route_4 #optional since i used @app.route with this route
